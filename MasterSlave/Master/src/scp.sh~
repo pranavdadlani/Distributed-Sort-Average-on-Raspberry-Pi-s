@@ -1,0 +1,56 @@
+#!/usr/bin/expect -f 
+set timeout 60
+set hosts {10.10.10.121 10.10.10.122 10.10.10.133 10.10.10.134 10.10.10.136 10.10.10.137}
+foreach h $hosts {
+	
+#include remote.sh in the directory
+	spawn scp /home/pi/demo/submissions/group5/Slave/src/Average.java pi@$h:/home/pi/slaveOf5
+	expect "password:"
+	send "raspberry\r"
+	interact
+	spawn scp /home/pi/demo/submissions/group5/Slave/src/ChunkReceiveSend.java pi@$h:/home/pi/slaveOf5
+	expect "password:"
+	send "raspberry\r"
+	interact
+	spawn scp /home/pi/demo/submissions/group5/Slave/src/IsAlive.java pi@$h:/home/pi/slaveOf5
+	expect "password:"
+	send "raspberry\r"
+	interact
+
+spawn scp /home/pi/demo/submissions/group5/Slave/src/Operations.java pi@$h:/home/pi/slaveOf5
+	expect "password:"
+	send "raspberry\r"
+	interact
+
+	spawn scp /home/pi/demo/submissions/group5/Slave/src/ResponseHandlerSlave.java pi@$h:/home/pi/slaveOf5
+	expect "password:"
+	send "raspberry\r"
+	interact
+	spawn scp /home/pi/demo/submissions/group5/Slave/src/Slave.java pi@$h:/home/pi/slaveOf5
+	expect "password:"
+	send "raspberry\r"
+	interact
+	spawn scp /home/pi/demo/submissions/group5/Slave/src/SlaveSockets.java pi@$h:/home/pi/slaveOf5
+	expect "password:"
+	send "raspberry\r"
+	interact
+	spawn scp /home/pi/demo/submissions/group5/Slave/src/SlaveState.java pi@$h:/home/pi/slaveOf5
+	expect "password:"
+	send "raspberry\r"
+	interact
+	spawn scp /home/pi/demo/submissions/group5/Slave/src/remote.sh.java pi@$h:/home/pi/slaveOf5
+	expect "password:"
+	send "raspberry\r"
+	interact
+
+	spawn ssh "pi@$h"
+	expect "password:"
+	send "raspberry\r"
+	send "cd slaveOf5\r"
+	send "chmod +x remote.sh\r"
+	#send "javac *.java\r"
+	#send "java Slave\r"
+	send "nohup sh remote.sh &\r"
+	send "exit\r"
+	interact
+}
